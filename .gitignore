@@ -1,0 +1,4 @@
+*.pyc
+*.sublime-*
+*.ipynb
+plan/settings.py
