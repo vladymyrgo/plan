@@ -1,4 +1,17 @@
 from django.db import models
+from django_extensions.db.fields import AutoSlugField
+from pytils.translit import translify
+
+
+class SlugModelMixin(models.Model):
+    slug = AutoSlugField(populate_from='slug_translit', db_index=True)
+
+    @property
+    def slug_translit(self):
+        return translify(getattr(self, self.SLUG_SOURCE))
+
+    class Meta:
+        abstract = True
 
 
 class CoreModel(models.Model):
@@ -15,7 +28,9 @@ class DreamManager(models.Manager):
         return self.get_queryset().filter(is_active=True)
 
 
-class Dream(CoreModel):
+class Dream(SlugModelMixin, CoreModel):
+    SLUG_SOURCE = 'title'
+
     title = models.CharField('Title', max_length=255)
     description = models.TextField('Description', blank=True, null=True)
     completion_date = models.DateTimeField('Completion date', blank=True, null=True)
@@ -35,7 +50,9 @@ class PlanManager(models.Manager):
         return self.get_queryset().filter(is_active=True)
 
 
-class Plan(CoreModel):
+class Plan(SlugModelMixin, CoreModel):
+    SLUG_SOURCE = 'title'
+
     dream = models.ForeignKey(Dream, verbose_name='Dream', related_name='plans')
     title = models.CharField('Title', max_length=255)
     description = models.TextField('Description', blank=True, null=True)
@@ -59,6 +76,7 @@ class Task(CoreModel):
     description = models.TextField('Description', blank=True, null=True)
     start_date = models.DateTimeField('Start date', blank=True, null=True)
     end_date = models.DateTimeField('End date', blank=True, null=True)
+    is_done = models.BooleanField('Done', default=False)
 
     objects = TaskManager()
 
@@ -72,7 +90,8 @@ class IdeaManager(models.Manager):
 
 
 class Idea(CoreModel):
-    plan = models.ForeignKey(Plan, verbose_name='Plan', related_name='ideas')
+    dream = models.ForeignKey(Dream, verbose_name='Dream', related_name='ideas', blank=True, null=True)
+    plan = models.ForeignKey(Plan, verbose_name='Plan', related_name='ideas', blank=True, null=True)
     title = models.CharField('Title', max_length=255)
     description = models.TextField('Description', blank=True, null=True)
 

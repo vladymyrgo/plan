@@ -46,6 +46,7 @@ class Migration(SchemaMigration):
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('start_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('end_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('is_done', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'dream', ['Task'])
 
@@ -55,7 +56,8 @@ class Migration(SchemaMigration):
             ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('plan', self.gf('django.db.models.fields.related.ForeignKey')(related_name='ideas', to=orm['dream.Plan'])),
+            ('dream', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='ideas', null=True, to=orm['dream.Dream'])),
+            ('plan', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='ideas', null=True, to=orm['dream.Plan'])),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
@@ -92,9 +94,10 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Idea'},
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'dream': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'ideas'", 'null': 'True', 'to': u"orm['dream.Dream']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'plan': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'ideas'", 'to': u"orm['dream.Plan']"}),
+            'plan': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'ideas'", 'null': 'True', 'to': u"orm['dream.Plan']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
@@ -116,6 +119,7 @@ class Migration(SchemaMigration):
             'end_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_done': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'parent_task': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'child_tasks'", 'null': 'True', 'to': u"orm['dream.Task']"}),
             'plan': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'tasks'", 'to': u"orm['dream.Plan']"}),
             'start_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
