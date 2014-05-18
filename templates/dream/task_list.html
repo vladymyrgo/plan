@@ -1,3 +1,18 @@
-{% for task in task_list %}
-  {{ task.title }}
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+<h1>Tasks</h1>
+<div>
+  <ul>
+    {% for task in task_list %}
+        {% ifchanged task.start_date %}
+          <li>
+            <h3>{{ task.start_date }}</h2>
+          </li>
+        {% endifchanged %}
+      <li>
+        <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

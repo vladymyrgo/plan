@@ -1,1 +1,8 @@
-{{ form.as_p }}
+{% extends "base.html" %}
+{% block content %}
+
+<form method="post" action="{{ task.get_absolute_url }}">{% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit" />
+</form>
+{% endblock content %}

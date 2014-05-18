@@ -1,0 +1,17 @@
+<h4>
+  <a href="/">Dream</a>
+  {% if dream %}
+    : <a href="{{ dream.get_absolute_url }}">{{ dream.title }}</a>
+  {% endif %}
+  {% if plan %}
+    / plan: <a href="{{ plan.get_absolute_url }}">{{ plan.title }}</a>
+  {% endif %}
+  {% if task %}
+    / task: <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+  {% endif %}
+  {% if idea %}
+    / idea: <a href="{{ idea.get_absolute_url }}">{{ idea.title }}</a>
+  {% endif %}
+</h4>
+{% block content %}
+{% endblock content %}

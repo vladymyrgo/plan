@@ -1,1 +1,39 @@
-{{ form.as_p }}
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+  <form method="post" action="{{ plan.get_absolute_url }}">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+<div>
+  <h2>Tasks:</h2>
+  <a href="{{ plan.get_create_task_url }}"><button >Create Task</button></a>
+  <ul>
+    {% for task in plan.tasks.actual_list %}
+      <li>
+        {% if task.is_done %}
+          <input type="checkbox" disabled="disabled" checked>
+        {% else %}
+          <input type="checkbox" disabled="disabled">
+        {% endif %}
+        <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div>
+  <h2>Ideas:</h2>
+  <a href="{% url "idea:new" %}"><button >Create Idea</button></a>
+  <ul>
+    {% for idea in plan.ideas.actual_list %}
+      <li>
+        <a href="{{ idea.get_absolute_url }}">{{ idea.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

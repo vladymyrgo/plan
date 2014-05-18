@@ -1,1 +1,8 @@
-{{ form.as_p }}
+{% extends "base.html" %}
+{% block content %}
+<h1>New Task</h1>
+<form method="post" action="{{ plan.get_create_task_url }}">{% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit" />
+</form>
+{% endblock content %}

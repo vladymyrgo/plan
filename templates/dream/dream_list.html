@@ -1,3 +1,18 @@
-{% for dream in dream_list %}
-  {{ dream.title }}
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+<div>
+  <h1>Dreams:</h1>
+  <a href="{% url "dream:new" %}"><button >Create Dream</button></a>
+  <ul>
+    {% for dream in dream_list %}
+      <li>
+        <a href="{{ dream.get_absolute_url }}">{{ dream.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div>
+  <h2><a href="{% url "task:list" %}">Tasks</a></h2>
+</div>
+{% endblock content %}
