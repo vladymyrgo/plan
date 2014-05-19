@@ -66,9 +66,15 @@ class TaskEditView(DreamMixin, PlanMixin, UpdateView):
     template_name_suffix = '_edit_form'
 
 
-class TaskListView(DreamMixin, PlanMixin, ListView):
+class TaskToDoListView(DreamMixin, PlanMixin, ListView):
     model = Task
     queryset = Task.objects.to_do_list()
+
+
+class TaskPurchasesListView(DreamMixin, PlanMixin, ListView):
+    model = Task
+    template_name = 'dream/task_purchase_list.html'
+    queryset = Task.objects.purchase_list()
 
 
 class IdeaCreateView(DreamMixin, PlanMixin, CreateView):

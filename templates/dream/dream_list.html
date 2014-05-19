@@ -6,13 +6,22 @@
   <ul>
     {% for dream in dream_list %}
       <li>
-        <a href="{{ dream.get_absolute_url }}">{{ dream.title }}</a>
+        <h3>
+          <a href="{{ dream.get_absolute_url }}">{{ dream.title }}</a>
+          {% if dream.completion_date %}
+            ({{ dream.completion_date|timeuntil }} remained)
+          {% endif %}
+        </h3>
       </li>
     {% endfor %}
   </ul>
 </div>
 
 <div>
-  <h2><a href="{% url "task:list" %}">Tasks</a></h2>
+  <h2><a href="{% url "task:to_do_list" %}">Tasks</a></h2>
+</div>
+
+<div>
+  <h2><a href="{% url "task:purchase_list" %}">Purchases</a></h2>
 </div>
 {% endblock content %}

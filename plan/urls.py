@@ -4,7 +4,7 @@ from django.contrib import admin
 from dream.views import (
     DreamListView, DreamCreateView, DreamEditView,
     PlanListView, PlanCreateView, PlanEditView,
-    TaskListView, TaskCreateView, TaskEditView,
+    TaskToDoListView, TaskPurchasesListView, TaskCreateView, TaskEditView,
     IdeaListView, IdeaCreateView, IdeaEditView
 )
 
@@ -39,13 +39,19 @@ plan_patterns = patterns('',
 
 task_patterns = patterns('',
     # noqa
-    url(r'^tasks/$',
-        TaskListView.as_view(),
-        name='list'),
-    url(r'^dreams/(?P<dream_slug>[-_\w]+)/plans/(?P<plan_slug>[-_\w]+)/tasks/new/$',
+    url(r'^tasks/to-do$',
+        TaskToDoListView.as_view(),
+        name='to_do_list'),
+    url(r'^tasks/purchases$',
+        TaskPurchasesListView.as_view(),
+        name='purchase_list'),
+    url(r'^tasks/new/$',
         TaskCreateView.as_view(),
         name='new'),
     url(r'^dreams/(?P<dream_slug>[-_\w]+)/plans/(?P<plan_slug>[-_\w]+)/tasks/(?P<pk>\d+)/$',
+        TaskEditView.as_view(),
+        name='edit'),
+    url(r'^tasks/(?P<pk>\d+)/$',
         TaskEditView.as_view(),
         name='edit'),
 )

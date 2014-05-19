@@ -79,15 +79,21 @@ class Plan(SlugModelMixin, CoreModel):
         return reverse('plan:edit', args=(self.dream.slug, self.slug,))
 
     def get_create_task_url(self):
-        return reverse('task:new', args=(self.dream.slug, self.slug,))
+        return reverse('task:new')
 
 
 class TaskManager(models.Manager):
     def actual_list(self):
         return self.get_queryset().filter(is_active=True)
 
+    def purchase_list(self):
+        return self.actual_list().filter(is_purchase=True)
+
+    def not_purchase_list(self):
+        return self.actual_list().filter(is_purchase=False)
+
     def to_do_list(self):
-        return self.actual_list().filter(is_done=False)
+        return self.not_purchase_list().filter(is_done=False)
 
 
 class Task(CoreModel):
@@ -99,6 +105,7 @@ class Task(CoreModel):
     start_date = models.DateField('Start date', blank=True, null=True)
     end_date = models.DateField('End date', blank=True, null=True)
     is_done = models.BooleanField('Done', default=False)
+    is_purchase = models.BooleanField('Is Purchase', default=False)
 
     objects = TaskManager()
 
@@ -109,7 +116,10 @@ class Task(CoreModel):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('task:edit', args=(self.plan.dream.slug, self.plan.slug, self.id,))
+        if self.plan:
+            return reverse('task:edit', args=(self.plan.dream.slug, self.plan.slug, self.id,))
+        else:
+            return reverse('task:edit', args=(self.id,))
 
 
 class IdeaManager(models.Manager):
@@ -125,6 +135,9 @@ class Idea(CoreModel):
     description = models.TextField('Description', blank=True, null=True)
 
     objects = IdeaManager()
+
+    class Meta:
+        ordering = ('-updated',)
 
     def __unicode__(self):
         return self.title

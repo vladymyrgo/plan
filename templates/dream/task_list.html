@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Tasks</h1>
+<a href="{% url "task:new" %}"><button >Create Task</button></a>
 <div>
   <ul>
     {% for task in task_list %}
         {% ifchanged task.start_date %}
           <li>
-            <h3>{{ task.start_date }}</h2>
+            <h3>{{ task.start_date|default:"Undated:" }}</h2>
           </li>
         {% endifchanged %}
       <li>

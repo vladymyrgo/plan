@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Purchases</h1>
+<a href="{% url "task:new" %}"><button >Create Purchase</button></a>
+<div>
+  <ul>
+    {% for task in task_list %}
+      <li>
+        <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}
