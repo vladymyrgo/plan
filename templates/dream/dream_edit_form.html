@@ -24,6 +24,20 @@
                 <input type="checkbox" disabled="disabled">
               {% endif %}
               <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+              {% if task.child_tasks.actual_list.exists %}
+                <ul>
+                  {% for child_task in task.child_tasks.actual_list %}
+                    <li>
+                      {% if child_task.is_done %}
+                        <input type="checkbox" disabled="disabled" checked>
+                      {% else %}
+                        <input type="checkbox" disabled="disabled">
+                      {% endif %}
+                      <a href="{{ child_task.get_absolute_url }}">{{ child_task.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
             </li>
           {% endfor %}
         </ul>

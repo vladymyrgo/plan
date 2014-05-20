@@ -1,17 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Tasks</h1>
 <a href="{% url "task:new" %}"><button >Create Task</button></a>
+<h2>Quick Tasks:</h2>
 <div>
   <ul>
-    {% for task in task_list %}
+    {% for task in tasks_without_plan %}
+      <li>
+        <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<h2>Tasks for plans:</h2>
+<div>
+  <ul>
+    {% for task in tasks_with_plan %}
         {% ifchanged task.start_date %}
           <li>
             <h3>{{ task.start_date|default:"Undated:" }}</h2>
           </li>
         {% endifchanged %}
       <li>
-        <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+        <a href="{{ task.plan.dream.get_absolute_url }}">{{ task.plan.dream.title }}</a> / <a href="{{ task.plan.get_absolute_url }}">{{ task.plan.title }}</a> / <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+        {% if task.child_tasks.to_do_list.exists %}
+          <ul>
+            {% for child_task in task.child_tasks.actual_list %}
+              <li>
+                <a href="{{ child_task.get_absolute_url }}">{{ child_task.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

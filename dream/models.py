@@ -95,10 +95,24 @@ class TaskManager(models.Manager):
     def to_do_list(self):
         return self.not_purchase_list().filter(is_done=False)
 
+    def with_plan_list(self):
+        return self.to_do_list().filter(plan__isnull=False)
+
+    def without_plan_list(self):
+        return self.to_do_list().filter(plan__isnull=True)
+
 
 class Task(CoreModel):
     plan = models.ForeignKey(Plan, verbose_name='Plan', related_name='tasks', blank=True, null=True)
-    # parent_task = models.ForeignKey('self', limit_choices_to={'parent_task': None}, verbose_name='Parent_task', related_name='child_tasks', blank=True, null=True)
+    parent_task = models.ForeignKey(
+        'self',
+        limit_choices_to={
+            'parent_task': None,
+            'plan__isnull': False,
+            'is_done': False},
+        verbose_name='Parent_task',
+        related_name='child_tasks',
+        blank=True, null=True)
     qq = models.TextField('QQ', blank=True, null=True)
     title = models.CharField('Title', max_length=255)
     description = models.TextField('Description', blank=True, null=True)
