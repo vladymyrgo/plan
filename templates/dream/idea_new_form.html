@@ -3,6 +3,6 @@
 <h1>New Idea</h1>
 <form method="post" action="{% url "idea:new" %}">{% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Submit" />
+  <input type="submit" value="Create" />
 </form>
 {% endblock content %}

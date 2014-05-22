@@ -11,7 +11,14 @@
         / plan: <a href="{{ plan.get_absolute_url }}">{{ plan.title }}</a>
       {% endif %}
       {% if task %}
-        / task: <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+        {% if not plan and not task.is_purchase %}
+          <a href="{% url "task:to_do_list" %}">/ tasks / </a>
+        {% elif not plan and task.is_purchase %}
+          <a href="{% url "task:purchase_list" %}">/ purchases / </a>
+        {% else %}
+          / task:
+        {% endif %}
+        <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
       {% endif %}
       {% if idea %}
         / idea: <a href="{{ idea.get_absolute_url }}">{{ idea.title }}</a>

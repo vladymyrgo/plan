@@ -98,8 +98,17 @@ class TaskManager(models.Manager):
     def with_plan_list(self):
         return self.to_do_list().filter(plan__isnull=False)
 
+    def parents_with_plan_list(self):
+        return self.with_plan_list().filter(parent_task__isnull=True)
+
     def without_plan_list(self):
         return self.to_do_list().filter(plan__isnull=True)
+
+    def parents_without_plan_list(self):
+        return self.without_plan_list().filter(parent_task__isnull=True)
+
+    def parents_list(self):
+        return self.actual_list().filter(parent_task__isnull=True)
 
 
 class Task(CoreModel):
@@ -108,7 +117,7 @@ class Task(CoreModel):
         'self',
         limit_choices_to={
             'parent_task': None,
-            'plan__isnull': False,
+            # 'plan__isnull': False,
             'is_done': False},
         verbose_name='Parent_task',
         related_name='child_tasks',
@@ -124,7 +133,7 @@ class Task(CoreModel):
     objects = TaskManager()
 
     class Meta:
-        ordering = ('start_date',)
+        ordering = ('start_date', 'plan__dream', 'plan', 'id')
 
     def __unicode__(self):
         return self.title

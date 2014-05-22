@@ -72,8 +72,8 @@ class TaskToDoListView(DreamMixin, PlanMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TaskToDoListView, self).get_context_data(**kwargs)
-        context['tasks_with_plan'] = Task.objects.with_plan_list()
-        context['tasks_without_plan'] = Task.objects.without_plan_list()
+        context['parents_with_plan_list'] = Task.objects.parents_with_plan_list()
+        context['parents_without_plan_list'] = Task.objects.parents_without_plan_list()
         return context
 
 

@@ -4,7 +4,7 @@
 <div>
   <form method="post" action="{{ dream.get_absolute_url }}">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Save" />
   </form>
 </div>
 
@@ -16,7 +16,7 @@
       <li>
         <h3><a href="{{ plan.get_absolute_url }}">{{ plan.title }}</a> tasks:</h3>
         <ul>
-          {% for task in plan.tasks.actual_list %}
+          {% for task in plan.tasks.parents_list %}
             <li>
               {% if task.is_done %}
                 <input type="checkbox" disabled="disabled" checked>

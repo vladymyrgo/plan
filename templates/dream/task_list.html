@@ -4,9 +4,18 @@
 <h2>Quick Tasks:</h2>
 <div>
   <ul>
-    {% for task in tasks_without_plan %}
+    {% for task in parents_without_plan_list %}
       <li>
         <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
+        {% if task.child_tasks.to_do_list.exists %}
+          <ul>
+            {% for child_task in task.child_tasks.actual_list %}
+              <li>
+                <a href="{{ child_task.get_absolute_url }}">{{ child_task.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>
@@ -15,7 +24,7 @@
 <h2>Tasks for plans:</h2>
 <div>
   <ul>
-    {% for task in tasks_with_plan %}
+    {% for task in parents_with_plan_list %}
         {% ifchanged task.start_date %}
           <li>
             <h3>{{ task.start_date|default:"Undated:" }}</h2>

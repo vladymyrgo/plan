@@ -3,6 +3,6 @@
 <h1>New Plan</h1>
 <form method="post" action="{{ dream.get_create_plan_url }}">{% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Submit" />
+  <input type="submit" value="Create" />
 </form>
 {% endblock content %}
