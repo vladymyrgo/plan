@@ -118,7 +118,8 @@ class Task(CoreModel):
         limit_choices_to={
             'parent_task': None,
             # 'plan__isnull': False,
-            'is_done': False},
+            'is_done': False,
+            'is_purchase': False},
         verbose_name='Parent_task',
         related_name='child_tasks',
         blank=True, null=True)
