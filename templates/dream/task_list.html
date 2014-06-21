@@ -34,7 +34,7 @@
         <a href="{{ task.plan.dream.get_absolute_url }}">{{ task.plan.dream.title }}</a> / <a href="{{ task.plan.get_absolute_url }}">{{ task.plan.title }}</a> / <a href="{{ task.get_absolute_url }}">{{ task.title }}</a>
         {% if task.child_tasks.to_do_list.exists %}
           <ul>
-            {% for child_task in task.child_tasks.actual_list %}
+            {% for child_task in task.child_tasks.to_do_list %}
               <li>
                 <a href="{{ child_task.get_absolute_url }}">{{ child_task.title }}</a>
               </li>
